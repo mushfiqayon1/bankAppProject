@@ -4,46 +4,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Repository = void 0;
 class Repository {
     constructor() {
-        this.repo = Repository;
+        this.myRepo = Repository;
         this.insert = async (table, data) => {
             return new Promise(async (resolve, reject) => {
-                return await this.repo
+                return await this.myRepo
                     .isTableInDB(table)
                     .then(async (tables) => {
                     return tables[table].push(data)
-                        ? resolve(this.repo.SUCCESS)
-                        : reject(this.repo.FAILURE);
+                        ? resolve(this.myRepo.SUCCESS)
+                        : reject(this.myRepo.FAILURE);
                 })
                     .catch((error) => reject(error));
             });
         };
         this.update = async (table, index, data) => {
             return new Promise(async (resolve, reject) => {
-                return await this.repo
+                return await this.myRepo
                     .isTableInDB(table)
                     .then((tables) => {
                     return tables[table].splice(index, 1, data)
-                        ? resolve(this.repo.SUCCESS)
-                        : reject(this.repo.FAILURE);
-                })
-                    .catch((error) => reject(error));
-            });
-        };
-        this.delete = async (table, index) => {
-            return new Promise(async (resolve, reject) => {
-                return await this.repo
-                    .isTableInDB(table)
-                    .then((tables) => {
-                    return tables[table].splice(index, 1).length
-                        ? resolve(this.repo.SUCCESS)
-                        : reject(this.repo.FAILURE);
+                        ? resolve(this.myRepo.SUCCESS)
+                        : reject(this.myRepo.FAILURE);
                 })
                     .catch((error) => reject(error));
             });
         };
         this.findAll = async (table) => {
             return new Promise(async (resolve, reject) => {
-                return await this.repo
+                return await this.myRepo
                     .isTableInDB(table)
                     .then(async (tables) => {
                     return tables[table].length > 0
@@ -53,16 +41,16 @@ class Repository {
                     .catch((error) => reject(error));
             });
         };
-        this.findByKey = async (table, searchOptions) => {
+        this.findByKey = async (table, searchCategory) => {
             return new Promise(async (resolve, reject) => {
-                return await this.repo
+                return await this.myRepo
                     .isTableInDB(table)
                     .then(async () => {
                     return await this.findAll(table)
                         .then((tableData) => {
                         const result = tableData
-                            .map((tableObj) => tableObj[this.useKey(searchOptions)] === searchOptions.id &&
-                            tableObj)
+                            .map((tableObj) => tableObj[this.useKey(searchCategory)] ===
+                            searchCategory.id && tableObj)
                             .filter((transaction) => transaction);
                         return resolve(result);
                     })
@@ -72,11 +60,11 @@ class Repository {
             });
         };
         this.findById = async (id, table) => new Promise(async (resolve) => resolve(await this.findByKey(table, { key: this.useKey(), id: id })));
-        this.isExistingAccount = async (search, searchOptions) => {
+        this.isExistingAccount = async (search, searchCategory) => {
             return new Promise(async (resolve, reject) => {
-                await this.repo.tables().then((tables) => {
+                await this.myRepo.tables().then((tables) => {
                     const [isAccountInDB] = tables.accounts
-                        .map((account, idx) => account[this.useKey(searchOptions)] === search && {
+                        .map((account, idx) => account[this.useKey(searchCategory)] === search && {
                         account: Object.assign({}, account),
                         index: idx,
                     })
@@ -87,41 +75,41 @@ class Repository {
                 });
             });
         };
-        this.useKey = (searchOptions) => searchOptions !== undefined ? searchOptions.key : 'id';
+        this.useKey = (searchCategory) => searchCategory !== undefined ? searchCategory.key : "id";
     }
 }
 exports.Repository = Repository;
 _a = Repository;
-Repository.swyftDatabase = [
+Repository.bankDatabase = [
     {
         accounts: [],
         transactions: [],
     },
 ];
-Repository.DATASTORE = Repository.swyftDatabase;
+Repository.DATASTORE = Repository.bankDatabase;
 Repository.SUCCESS = true;
 Repository.FAILURE = false;
 Repository.isTableEmpty = async (table) => {
     return new Promise(async (resolve, reject) => {
-        const $_this = Repository;
-        return await $_this
+        const inThisRepo = Repository;
+        return await inThisRepo
             .isTableInDB(table)
             .then(async (tables) => {
             return tables[table].length <= 0
-                ? reject($_this.SUCCESS)
-                : resolve($_this.FAILURE);
+                ? reject(inThisRepo.SUCCESS)
+                : resolve(inThisRepo.FAILURE);
         })
             .catch((error) => reject(error));
     });
 };
 Repository.isTableInDB = async (table) => {
     return new Promise(async (resolve, reject) => {
-        const $_this = Repository;
-        return await $_this
+        const inThisRepo = Repository;
+        return await inThisRepo
             .tables()
             .then((tables) => Object.keys(tables).includes(table)
             ? resolve(tables)
-            : reject($_this.FAILURE))
+            : reject(inThisRepo.FAILURE))
             .catch((error) => reject(error));
     });
 };

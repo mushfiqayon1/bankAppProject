@@ -10,9 +10,9 @@ exports.TransactionsModule = void 0;
 const common_1 = require("@nestjs/common");
 const transactions_service_1 = require("./transactions.service");
 const transactions_controller_1 = require("./transactions.controller");
-const tables_database_1 = require("../core/database/tables.database");
+const tables_database_1 = require("../essentials/database/tables.database");
 const repository_1 = require("../repositories/repository");
-const database_module_1 = require("../core/database/database.module");
+const database_module_1 = require("../essentials/database/database.module");
 const repository_module_1 = require("../repositories/repository.module");
 let TransactionsModule = class TransactionsModule {
 };

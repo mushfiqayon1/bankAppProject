@@ -28,8 +28,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TransactionsController.prototype, "findAllTransactions", null);
 TransactionsController = __decorate([
-    (0, swagger_1.ApiTags)('Transactions'),
-    (0, common_1.Controller)('transactions'),
+    (0, swagger_1.ApiTags)("Transactions"),
+    (0, common_1.Controller)("transactions"),
     __metadata("design:paramtypes", [transactions_service_1.TransactionsService])
 ], TransactionsController);
 exports.TransactionsController = TransactionsController;

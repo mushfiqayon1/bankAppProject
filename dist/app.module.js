@@ -12,9 +12,9 @@ const accounts_module_1 = require("./accounts/accounts.module");
 const transactions_module_1 = require("./transactions/transactions.module");
 const transactions_service_1 = require("./transactions/transactions.service");
 const transactions_controller_1 = require("./transactions/transactions.controller");
-const database_module_1 = require("./core/database/database.module");
+const database_module_1 = require("./essentials/database/database.module");
 const repository_module_1 = require("./repositories/repository.module");
-const swyft_session_module_1 = require("./core/sessions/swyft-session.module");
+const bankSession_module_1 = require("./essentials/sessions/bankSession.module");
 const accounts_service_1 = require("./accounts/accounts.service");
 const accounts_controller_1 = require("./accounts/accounts.controller");
 let AppModule = class AppModule {
@@ -26,7 +26,7 @@ AppModule = __decorate([
             transactions_module_1.TransactionsModule,
             database_module_1.DatabaseModule,
             repository_module_1.RepositoryModule,
-            swyft_session_module_1.SwyftSesssionModule,
+            bankSession_module_1.BankSesssionModule,
         ],
         controllers: [accounts_controller_1.AccountsController, transactions_controller_1.TransactionsController],
         providers: [accounts_service_1.AccountsService, transactions_service_1.TransactionsService],

@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { Table } from '../core/database/tables.database';
-import { Repository } from './repository';
+import { Module } from "@nestjs/common";
+import { Table } from "../essentials/database/tables.database";
+import { Repository } from "./repository";
 
 @Module({
   providers: [Repository, Table],

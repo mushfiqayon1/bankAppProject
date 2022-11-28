@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RepositoryModule = void 0;
 const common_1 = require("@nestjs/common");
-const tables_database_1 = require("../core/database/tables.database");
+const tables_database_1 = require("../essentials/database/tables.database");
 const repository_1 = require("./repository");
 let RepositoryModule = class RepositoryModule {
 };

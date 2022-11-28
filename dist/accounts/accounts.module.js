@@ -10,15 +10,15 @@ exports.AccountsModule = void 0;
 const common_1 = require("@nestjs/common");
 const accounts_controller_1 = require("./accounts.controller");
 const accounts_service_1 = require("./accounts.service");
-const tables_database_1 = require("../core/database/tables.database");
+const tables_database_1 = require("../essentials/database/tables.database");
 const repository_1 = require("../repositories/repository");
-const swyft_session_session_1 = require("../core/sessions/swyft-session.session");
+const bankSession_session_1 = require("../essentials/sessions/bankSession.session");
 let AccountsModule = class AccountsModule {
 };
 AccountsModule = __decorate([
     (0, common_1.Module)({
         controllers: [accounts_controller_1.AccountsController],
-        providers: [accounts_service_1.AccountsService, tables_database_1.Table, repository_1.Repository, swyft_session_session_1.SwyftSession],
+        providers: [accounts_service_1.AccountsService, tables_database_1.Table, repository_1.Repository, bankSession_session_1.BankSession],
         exports: [accounts_service_1.AccountsService],
     })
 ], AccountsModule);

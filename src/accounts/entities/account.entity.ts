@@ -12,7 +12,7 @@ export class Account {
     family_name: string,
     email_address: string,
     note: string,
-    balance: { amount: number; currency: string },
+    balance: { amount: number; currency: string }
   ) {
     this.id = id;
     this.given_name = given_name;
@@ -22,15 +22,8 @@ export class Account {
     this.balance = balance;
   }
 
-  /**
-   * Check if amount is greater than zero
-   * @returns
-   */
-  isAmountPositive?(): boolean {
+  // Check if amount is greater than zero
+  validAmount?(): boolean {
     return this.balance.amount > 0;
   }
-
-  // private get getId(): string {
-  //   return this.id;
-  // }
 }

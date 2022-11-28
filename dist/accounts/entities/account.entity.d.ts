@@ -12,5 +12,5 @@ export declare class Account {
         amount: number;
         currency: string;
     });
-    isAmountPositive?(): boolean;
+    validAmount?(): boolean;
 }

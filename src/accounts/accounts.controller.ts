@@ -1,11 +1,22 @@
-import { Controller, Get, Param, Patch, Post, Body } from '@nestjs/common';
-import { AccountsService } from './accounts.service';
-import { ApiTags } from '@nestjs/swagger';
-import { CreateAccountDto } from './dto/create-account.dto';
-import { Account } from './dto/entities/account.entity';
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Body,
+  ParseUUIDPipe,
+} from "@nestjs/common";
+import { AccountsService } from "./accounts.service";
+import { ApiTags } from "@nestjs/swagger";
+import { CreateAccountDto } from "./dto/create-account.dto";
+import { UpdateAccountDto } from "./dto/update-account.dto";
+import { CreateTransactionDto } from "src/transactions/dto/create-transaction.dto";
+import { DepositTransactionDto } from "src/transactions/dto/deposit-transaction.dto";
+import { WithdrawTransactionDto } from "../transactions/dto/withdraw-transaction.dto";
 
-@ApiTags('Account')
-@Controller('accounts')
+@ApiTags("Account")
+@Controller("accounts")
 export class AccountsController {
   // quering logic should be in the service
   //need to add the constructor
@@ -13,68 +24,86 @@ export class AccountsController {
     // Whats happening here: Accounts service controller is saying I want AccountsService to be automatically injected into this controller and nest is doing that in the backgroud
   }
 
-  //POST /accounts/
-  //Creating the account
+  /* POST /accounts/
+    Creating the account*/
   @Post()
   createAccount(@Body() body: CreateAccountDto): any {
     //return account;
     return this.accountsService.createAccount(body);
   }
 
-  //GET /accounts/
-  //retrive all accounts infromation
-  // @Get()
-  // findAllAccounts(): Account[] {
-  //   // note: here any is a return type
-  //   //return all accounts;
-  //   // return this.accountsService.findAllAccounts();
-  // }
-
-  //GET /accounts/{id}
-  //specific account information
-  // @Get(':id')
-  // findSpecificAccount(@Param('id') accountId: string): Account {
-  //   //return specificAccount;
-  //   // return this.accountsService.findSpecificAccount(Number(accountId));
-  // }
-
-  //GET /transactions
-  //retrive all a list of all transactions across all accounts in the system
+  /* GET /accounts/
+     retrive all accounts infromation */
   @Get()
-  findAllTransactions() {
-    //return all the transactions for all the accounts
+  findAllAccounts() {
+    // note: here any is a return type
+    //return all accounts;
+    return this.accountsService.findAllAccounts();
+  }
+
+  /*GET /accounts/{id}
+   specific account information */
+  @Get(":id")
+  async findOneAccount(@Param("id") accountId: string) {
+    //return specificAccount;
+    return this.accountsService.findOneAccount(accountId);
   }
 
   //GET /accounts/{accountId}/transactions
-  @Get(':id/transactions/')
-  findSpecificTransaction() {
+  @Get(":id/transactions/")
+  findOneTransaction(@Param("id") accountId: string) {
     //retrun transactrion for one specific account;
+    return this.accountsService.findOneTransaction(accountId);
   }
 
   //POST /accounts/{accountId}/transactions/add
   // Create a transaction to add money in the syetem for a specific account
-  @Post(':id/transactions/add')
-  addMoneyToAccount() {
+  @Post(":id/transactions/add")
+  async addMoneyToAccount(
+    @Param("id") accountId: string,
+    @Body() addTransactionDto: DepositTransactionDto
+  ) {
     //return add money to a specific account and update the balance
+    return this.accountsService.addMoneyToAccount(accountId, {
+      ...addTransactionDto,
+    });
   }
 
   //POST /accounts/{accountId}/transactions/withdraw
   // Create a transaction to withdrawmoney from a specific account
-  @Post(':id/transactions/withdraw')
-  withdrawMoneyFromAccount() {
+  @Post(":id/transactions/withdraw")
+  withdrawMoneyFromAccount(
+    @Param("id") accountId: string,
+    @Body() withdrawTransactionDto: WithdrawTransactionDto
+  ) {
     //retrun the updated account
+    return this.accountsService.withdrawMoneyFromAccount(
+      accountId,
+      withdrawTransactionDto
+    );
   }
 
   //POST /accounts/{accountId}/transactions/send
   //create a function that will send money to an account and update the balance of the current account
-  @Post(':id/transactions/send')
-  sendMoneyToAccount() {
+  @Post(":id/transactions/send")
+  sendMoneyToAccount(
+    @Param("id") accountId: string,
+    @Body() createTransactionDto: CreateTransactionDto
+  ) {
     //retun the updated account and and the receiverAccount
+    return this.accountsService.sendMoneyToAccount(
+      accountId,
+      createTransactionDto
+    );
   }
 
   //Update specific account with new balance/transaction
-  @Patch(':id')
-  updateAccount() {
+  @Patch(":id")
+  updateAccount(
+    @Param("id") accountId: string,
+    @Body() updateAccountDto: UpdateAccountDto
+  ) {
     //return specific newly updated account
+    return this.accountsService.updateAccount(accountId, updateAccountDto);
   }
 }

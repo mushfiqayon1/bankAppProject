@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionsService = void 0;
 const common_1 = require("@nestjs/common");
-const tables_database_1 = require("../core/database/tables.database");
+const tables_database_1 = require("../essentials/database/tables.database");
 const repository_1 = require("../repositories/repository");
 let TransactionsService = class TransactionsService {
     constructor(tables, repo) {
@@ -21,7 +21,7 @@ let TransactionsService = class TransactionsService {
     async findAllTransactions() {
         const dbResult = await this.repo.findAll(this.tables.TRANSACTIONS);
         return !dbResult
-            ? new common_1.NotFoundException('Wrong table provided.')
+            ? new common_1.NotFoundException("Wrong table provided.")
             : Array.isArray(dbResult) && {
                 count: dbResult.length,
                 result: dbResult,

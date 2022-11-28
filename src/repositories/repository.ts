@@ -1,111 +1,77 @@
-import { SwyftAccountQuery, SwyftDatabaseTables } from '../typings/types';
-import { Account } from '../accounts/entities/account.entity';
-import { Transaction } from '../transactions/entities/transaction.entity';
+import {
+  BankAccountQuery,
+  BankDatabaseTables,
+} from "../essentials/typings/types";
+import { Account } from "../accounts/entities/account.entity";
+import { Transaction } from "../transactions/entities/transaction.entity";
 
 export class Repository {
-  /**
-   * Access to class name alias for non-static methods
-   */
-  private readonly repo = Repository;
+  //  * Access to class name alias for non-static methods
 
-  /**
-   * Swyft API Datastore/Database
-   */
-  private static readonly swyftDatabase: Array<SwyftDatabaseTables> = [
+  private readonly myRepo = Repository;
+
+  //  * Bank API Database
+
+  private static readonly bankDatabase: Array<BankDatabaseTables> = [
     {
       accounts: [],
       transactions: [],
     },
   ];
 
-  /**
-   * Swyft API Database Alias
-   */
-  public static DATASTORE: Array<SwyftDatabaseTables> =
-    Repository.swyftDatabase;
+  //  * Bank API Database Alias
 
-  /**
-   * Constant initilization for thruthy boolean
-   */
+  public static DATASTORE: Array<BankDatabaseTables> = Repository.bankDatabase;
+
+  //  * Constant initilization for thruthy boolean
+
   private static readonly SUCCESS: boolean = true;
 
-  /**
-   * Constant initilization for falsy boolean
-   */
+  //  * Constant initilization for falsy boolean
+
   private static readonly FAILURE: boolean = false;
 
-  /**
-   * Insert data into table
-   * @param table Target table
-   * @param data The data to insert
-   * @returns Promise <Boolean | null>
-   */
+  // Insert data into table
+
   public insert = async (table: string, data: any): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
-      return await this.repo
+      return await this.myRepo
         .isTableInDB(table)
         .then(async (tables) => {
           return tables[table].push(data)
-            ? resolve(this.repo.SUCCESS)
-            : reject(this.repo.FAILURE);
+            ? resolve(this.myRepo.SUCCESS)
+            : reject(this.myRepo.FAILURE);
         })
         .catch((error) => reject(error));
     });
   };
 
-  /**
-   * Update data in table
-   * @param table Target table
-   * @param index The position to update in table
-   * @param data The data to insert
-   * @returns Promise<Boolean | null>
-   */
+  // Update data in table
+
   public update = async (
     table: string,
     index: number,
-    data: any,
+    data: any
   ): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
-      return await this.repo
+      return await this.myRepo
         .isTableInDB(table)
         .then((tables) => {
           return tables[table].splice(index, 1, data)
-            ? resolve(this.repo.SUCCESS)
-            : reject(this.repo.FAILURE);
+            ? resolve(this.myRepo.SUCCESS)
+            : reject(this.myRepo.FAILURE);
         })
         .catch((error) => reject(error));
     });
   };
 
-  /**
-   * Delete data from table
-   * @param table Target table
-   * @param index The position to delete in table
-   * @returns Promise<Boolean | null>
-   */
-  public delete = async (table: string, index: number): Promise<boolean> => {
-    return new Promise(async (resolve, reject) => {
-      return await this.repo
-        .isTableInDB(table)
-        .then((tables) => {
-          return tables[table].splice(index, 1).length
-            ? resolve(this.repo.SUCCESS)
-            : reject(this.repo.FAILURE);
-        })
-        .catch((error) => reject(error));
-    });
-  };
+  //  Retrieve all data from a given table
 
-  /**
-   * Retrieve all data from a given table
-   * @param table Target table
-   * @returns Promise<Array<Account> | null>
-   */
   public findAll = async (
-    table: string,
+    table: string
   ): Promise<Array<Account> | Array<Transaction>> => {
     return new Promise(async (resolve, reject) => {
-      return await this.repo
+      return await this.myRepo
         .isTableInDB(table)
         .then(async (tables) => {
           return tables[table].length > 0
@@ -116,19 +82,14 @@ export class Repository {
     });
   };
 
-  /**
-   * Retrieve all data that matches the provided search options
-   * @param table Target table
-   * @param searchOptions.key The key/field to match
-   * @param searchOptions.id The search value. Id is used by default
-   * @returns Promise<Array<Account | Transaction> | null>
-   */
+  //  Retrieve all data that matches the provided search options
+
   public findByKey = async (
     table: string,
-    searchOptions?: { key: string; id: string },
+    searchCategory?: { key: string; id: string }
   ): Promise<Array<Transaction | Account> | boolean> => {
     return new Promise(async (resolve, reject) => {
-      return await this.repo
+      return await this.myRepo
         .isTableInDB(table)
         .then(async () => {
           return await this.findAll(table)
@@ -136,8 +97,8 @@ export class Repository {
               const result = tableData
                 .map(
                   (tableObj: Account | Transaction) =>
-                    tableObj[this.useKey(searchOptions)] === searchOptions.id &&
-                    tableObj,
+                    tableObj[this.useKey(searchCategory)] ===
+                      searchCategory.id && tableObj
                 )
                 .filter((transaction) => transaction);
 
@@ -149,84 +110,69 @@ export class Repository {
     });
   };
 
-  /**
-   * Find a given account by Id
-   * @param id The id to search for
-   * @param table Target table
-   * @returns Promise<Array<Account | Transaction>>
-   */
+  //  Find a given account by Id
+
   public findById = async (
     id: string,
-    table: string,
+    table: string
   ): Promise<Array<Account | Transaction> | boolean> =>
     new Promise(async (resolve) =>
-      resolve(await this.findByKey(table, { key: this.useKey(), id: id })),
+      resolve(await this.findByKey(table, { key: this.useKey(), id: id }))
     );
 
-  /**
-   * Chekc if a given table in the database is empty
-   * @param table Target table
-   * @returns Promise<Boolean | null>
-   */
+  //  Chekc if a given table in the database is empty
+
   public static isTableEmpty = async (table: string): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
-      const $_this = Repository;
-      return await $_this
+      const inThisRepo = Repository;
+      return await inThisRepo
         .isTableInDB(table)
         .then(async (tables) => {
           return tables[table].length <= 0
-            ? reject($_this.SUCCESS)
-            : resolve($_this.FAILURE);
+            ? reject(inThisRepo.SUCCESS)
+            : resolve(inThisRepo.FAILURE);
         })
         .catch((error) => reject(error));
     });
   };
 
-  /**
-   * Checks if a given table exists in the database
-   * @param table The table to check
-   * @returns Promise<Boolean>
-   */
+  //  Checks if a given table exists in the database
+
   public static isTableInDB = async (
-    table: string,
-  ): Promise<boolean | SwyftDatabaseTables> => {
+    table: string
+  ): Promise<boolean | BankDatabaseTables> => {
     return new Promise(async (resolve, reject) => {
-      const $_this = Repository;
-      return await $_this
+      const inThisRepo = Repository;
+      return await inThisRepo
         .tables()
         .then((tables) =>
           Object.keys(tables).includes(table)
             ? resolve(tables)
-            : reject($_this.FAILURE),
+            : reject(inThisRepo.FAILURE)
         )
         .catch((error) => reject(error));
     });
   };
 
-  /**
-   * Queries the existence of a given account in the database.
-   * If no search options is provided, the ID will be used by default
-   * @param search Data to check for
-   * @param searchOptions.key The key/field to match
-   * @param searchOptions.id The search value. Id is used by default
-   * @returns Promise<SwyftAccountQuery>
-   */
+  //  Queries the existence of a given account in the database.
+  //  If no search options is provided, the ID will be used by default
+
   public isExistingAccount = async (
     search: string,
-    searchOptions?: {
+    searchCategory?: {
       key: string;
-    },
-  ): Promise<SwyftAccountQuery> => {
+    }
+  ): Promise<BankAccountQuery> => {
     return new Promise(async (resolve, reject) => {
-      await this.repo.tables().then((tables) => {
-        const [isAccountInDB]: undefined | Array<SwyftAccountQuery> =
+      await this.myRepo.tables().then((tables) => {
+        const [isAccountInDB]: undefined | Array<BankAccountQuery> =
           tables.accounts
             .map(
               (account: Account, idx: number) =>
-                account[this.useKey(searchOptions)] === search && {
+                account[this.useKey(searchCategory)] === search && {
                   account: { ...account },
                   index: idx,
-                },
+                }
             )
             .filter((account) => account);
 
@@ -237,20 +183,15 @@ export class Repository {
     });
   };
 
-  /**
-   * Retrive all tables in the database
-   * @returns Promise<SwyftDatabaseTables>
-   */
-  public static tables = (): Promise<SwyftDatabaseTables> => {
-    const [tables]: Array<SwyftDatabaseTables> = Repository.DATASTORE;
+  // Retrive all tables in the database
+
+  public static tables = (): Promise<BankDatabaseTables> => {
+    const [tables]: Array<BankDatabaseTables> = Repository.DATASTORE;
     return new Promise((resolve) => resolve(tables));
   };
 
-  /**
-   * Defaults to ID key if no searchoptions is provided
-   * @param searchOptions
-   * @returns
-   */
-  public useKey = (searchOptions?: Record<string, string>) =>
-    searchOptions !== undefined ? searchOptions.key : 'id';
+  //  Defaults to ID key if no searchCategory is provided
+
+  public useKey = (searchCategory?: Record<string, string>) =>
+    searchCategory !== undefined ? searchCategory.key : "id";
 }

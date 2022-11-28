@@ -10,7 +10,7 @@ class Account {
         this.note = note;
         this.balance = balance;
     }
-    isAmountPositive() {
+    validAmount() {
         return this.balance.amount > 0;
     }
 }
