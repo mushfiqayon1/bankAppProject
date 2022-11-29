@@ -5,13 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { DepositTransactionDto } from "../dto/deposit-transaction.dto";
 import { WithdrawTransactionDto } from "../dto/withdraw-transaction.dto";
 
-export class TransactionMapper {
-  /**
-   * Transactions table create mapper
-   * @param accountId
-   * @param raw
-   * @returns
-   */
+export class TransactionTracer {
   public static assignId(
     accountId: string,
     targetAccountId: string | null,

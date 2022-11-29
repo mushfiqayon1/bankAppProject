@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { UpdateAccountDto } from "../dto/update-account.dto";
 
-export class AccountMapper {
+export class AccountTracer {
   // Assigning a uuid to each account so that we can trace all these accounts
   public static assignId(old: CreateAccountDto): Account {
     console.log(old);

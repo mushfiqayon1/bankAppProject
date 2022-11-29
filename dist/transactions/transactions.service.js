@@ -21,7 +21,7 @@ let TransactionsService = class TransactionsService {
     async findAllTransactions() {
         const dbResult = await this.repo.findAll(this.tables.TRANSACTIONS);
         return !dbResult
-            ? new common_1.NotFoundException("Wrong table provided.")
+            ? new common_1.NotFoundException("Wrong table! Please Check again.")
             : Array.isArray(dbResult) && {
                 count: dbResult.length,
                 result: dbResult,

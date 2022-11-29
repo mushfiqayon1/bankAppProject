@@ -1,1 +1,1 @@
-{"version":3,"file":"tables.database.js","sourceRoot":"","sources":["../../../src/essentials/database/tables.database.ts"],"names":[],"mappings":";;;AAAA,MAAa,KAAK;IAOhB;QACE,IAAI,CAAC,QAAQ,GAAG,UAAU,CAAC;QAC3B,IAAI,CAAC,YAAY,GAAG,cAAc,CAAC;IACrC,CAAC;CACF;AAXD,sBAWC"}
+{"version":3,"file":"tables.database.js","sourceRoot":"","sources":["../../../src/essentials/database/tables.database.ts"],"names":[],"mappings":";;;AAAA,MAAa,KAAK;IAMhB;QACE,IAAI,CAAC,QAAQ,GAAG,UAAU,CAAC;QAC3B,IAAI,CAAC,YAAY,GAAG,cAAc,CAAC;IACrC,CAAC;CACF;AAVD,sBAUC"}

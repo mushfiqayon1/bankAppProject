@@ -32,7 +32,7 @@ let AccountsService = class AccountsService {
                 id: createAccountDto.email_address,
             });
             if (!Array.isArray(findKey)) {
-                const result = this.repository.insert(this.tables.ACCOUNTS, account_trace_1.AccountMapper.assignId(Object.assign({}, createAccountDto)));
+                const result = this.repository.insert(this.tables.ACCOUNTS, account_trace_1.AccountTracer.assignId(Object.assign({}, createAccountDto)));
                 if (result) {
                     console.log("Result: ", await this.repository.findAll("accounts"));
                     return { result: true, message: "Account created succesfully" };
@@ -60,7 +60,7 @@ let AccountsService = class AccountsService {
                 throw new common_1.NotFoundException("Account does not exist!");
             }
             const updatedAccount = Object.assign(Object.assign({}, accountExist.account), updateAccountDto);
-            const result = this.repository.update(this.tables.ACCOUNTS, accountExist.index, account_trace_1.AccountMapper.toUpdateAttribute(accountId, updatedAccount, updatedAccount.balance));
+            const result = this.repository.update(this.tables.ACCOUNTS, accountExist.index, account_trace_1.AccountTracer.toUpdateAttribute(accountId, updatedAccount, updatedAccount.balance));
             if (result) {
                 console.log("Result: ", await this.repository.findAll("accounts"));
                 return { result: true, message: "Account updated succesfully" };
@@ -141,7 +141,7 @@ let AccountsService = class AccountsService {
                     const createSessionForThisAccount = this.session.initSession(accountId);
                     const updateAccountBalance = this.repository.update(this.tables.ACCOUNTS, (await accountExist).index, this.credit(await accountExist, addTransactionDto.amount_money.amount));
                     if (updateAccountBalance) {
-                        const insertTrasactionInDB = this.repository.insert(this.tables.TRANSACTIONS, transaction_trace_1.TransactionMapper.assignId(accountId, null, addTransactionDto));
+                        const insertTrasactionInDB = this.repository.insert(this.tables.TRANSACTIONS, transaction_trace_1.TransactionTracer.assignId(accountId, null, addTransactionDto));
                         console.log((await accountExist).account);
                         () => this.session.killSession(accountId);
                         return { message: "Money Added Successfully on the account" };
@@ -169,7 +169,7 @@ let AccountsService = class AccountsService {
                         this.miniWithdrawAmmount) {
                         const updateAccount = this.repository.update(this.tables.ACCOUNTS, accountExist.index, this.debit(accountExist, withdrawTransactionDto.amount_money.amount));
                         if (updateAccount) {
-                            const insertTrasactionInDB = this.repository.insert(this.tables.TRANSACTIONS, transaction_trace_1.TransactionMapper.assignId(accountId, null, withdrawTransactionDto));
+                            const insertTrasactionInDB = this.repository.insert(this.tables.TRANSACTIONS, transaction_trace_1.TransactionTracer.assignId(accountId, null, withdrawTransactionDto));
                             () => this.session.killSession(accountId);
                             return { message: "Your withdrawl has been Successful" };
                         }
@@ -211,7 +211,7 @@ let AccountsService = class AccountsService {
                     const updateSourceAccount = this.repository.update(this.tables.ACCOUNTS, (await targetAccount).index, this.debit(await sourceAccount, createTransactionDto.amount_money.amount));
                     const updateTargetAccount = this.repository.update(this.tables.ACCOUNTS, (await targetAccount).index, this.credit(await targetAccount, createTransactionDto.amount_money.amount));
                     if (updateSourceAccount && updateTargetAccount) {
-                        const insertTrasactionInDB = this.repository.insert(this.tables.TRANSACTIONS, transaction_trace_1.TransactionMapper.assignId(accountId, createTransactionDto.target_account_id, createTransactionDto));
+                        const insertTrasactionInDB = this.repository.insert(this.tables.TRANSACTIONS, transaction_trace_1.TransactionTracer.assignId(accountId, createTransactionDto.target_account_id, createTransactionDto));
                         () => this.session.killSession(accountId);
                         return { message: "Transaction is successfull" };
                     }

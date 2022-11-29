@@ -6,11 +6,11 @@ import { Account } from "../accounts/entities/account.entity";
 import { Transaction } from "../transactions/entities/transaction.entity";
 
 export class Repository {
-  //  * Access to class name alias for non-static methods
+  //  Access to class name alias for non-static methods
 
   private readonly myRepo = Repository;
 
-  //  * Bank API Database
+  //  Bank API Database
 
   private static readonly bankDatabase: Array<BankDatabaseTables> = [
     {
@@ -19,15 +19,15 @@ export class Repository {
     },
   ];
 
-  //  * Bank API Database Alias
+  //   Bank API Database
 
   public static DATASTORE: Array<BankDatabaseTables> = Repository.bankDatabase;
 
-  //  * Constant initilization for thruthy boolean
+  //  Constant initilization
 
   private static readonly SUCCESS: boolean = true;
 
-  //  * Constant initilization for falsy boolean
+  //  Constant initilization
 
   private static readonly FAILURE: boolean = false;
 
@@ -110,7 +110,7 @@ export class Repository {
     });
   };
 
-  //  Find a given account by Id
+  // Find a given account by Id
 
   public findById = async (
     id: string,
@@ -120,7 +120,7 @@ export class Repository {
       resolve(await this.findByKey(table, { key: this.useKey(), id: id }))
     );
 
-  //  Chekc if a given table in the database is empty
+  // Chekc if a given table in the database is empty
 
   public static isTableEmpty = async (table: string): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
@@ -154,8 +154,8 @@ export class Repository {
     });
   };
 
-  //  Queries the existence of a given account in the database.
-  //  If no search options is provided, the ID will be used by default
+  //  If a queries exis on a given account in the database.
+  //  If no search options is provided, bu default it will use the ID
 
   public isExistingAccount = async (
     search: string,

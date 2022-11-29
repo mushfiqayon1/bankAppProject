@@ -11,13 +11,13 @@ import { CreateAccountDto } from "./dto/create-account.dto";
 import { Account } from "./dto/entities/account.entity";
 import { Repository } from "../repositories/repository";
 import { Table } from "../essentials/database/tables.database";
-import { AccountMapper } from "./tracer/account.trace";
+import { AccountTracer } from "./tracer/account.trace";
 import { UpdateAccountDto } from "./dto/update-account.dto";
 import { DepositTransactionDto } from "../transactions/dto/deposit-transaction.dto";
 import { BankSession } from "../essentials/sessions/bankSession.session";
 import { CreateTransactionDto } from "../transactions/dto/create-transaction.dto";
 import { BankAccountQuery } from "../essentials/typings/types";
-import { TransactionMapper } from "../transactions/tracer/transaction.trace";
+import { TransactionTracer } from "../transactions/tracer/transaction.trace";
 import { WithdrawTransactionDto } from "src/transactions/dto/withdraw-transaction.dto";
 
 @Injectable()
@@ -42,7 +42,7 @@ export class AccountsService {
       if (!Array.isArray(findKey)) {
         const result = this.repository.insert(
           this.tables.ACCOUNTS,
-          AccountMapper.assignId({ ...createAccountDto })
+          AccountTracer.assignId({ ...createAccountDto })
         );
 
         if (result) {
@@ -84,7 +84,7 @@ export class AccountsService {
       const result = this.repository.update(
         this.tables.ACCOUNTS,
         accountExist.index,
-        AccountMapper.toUpdateAttribute(
+        AccountTracer.toUpdateAttribute(
           accountId,
           updatedAccount,
           updatedAccount.balance
@@ -95,33 +95,6 @@ export class AccountsService {
         console.log("Result: ", await this.repository.findAll("accounts"));
         return { result: true, message: "Account updated succesfully" };
       } else throw new NotFoundException("Cannot update. please try again!");
-
-      /* 
-        try {
-      const accountExist = this.repository.isExistingAccount(accountId);
-
-      // const existingAccount = existingAccount => {}
-
-      if (accountExist) {
-        (existingAccount) => {
-          const updatedAttributes: Account = {
-            ...existingAccount.account,
-            ...updateAccountDto,
-          };
-        };
-        const updatedAccount = this.repository.update(
-          this.tables.ACCOUNTS,
-          existingAccount.index,
-          AccountMapper.toUpdateDomain(
-            accountId,
-            updatedAttributes,
-            updatedAttributes.balance
-          )
-        );
-      }
-    } catch {}
-      
-      */
     } catch (error) {
       return error;
     }
@@ -219,7 +192,7 @@ export class AccountsService {
           if (updateAccountBalance) {
             const insertTrasactionInDB = this.repository.insert(
               this.tables.TRANSACTIONS,
-              TransactionMapper.assignId(accountId, null, addTransactionDto)
+              TransactionTracer.assignId(accountId, null, addTransactionDto)
             );
             console.log((await accountExist).account);
             () => this.session.killSession(accountId);
@@ -269,7 +242,7 @@ export class AccountsService {
             if (updateAccount) {
               const insertTrasactionInDB = this.repository.insert(
                 this.tables.TRANSACTIONS,
-                TransactionMapper.assignId(
+                TransactionTracer.assignId(
                   accountId,
                   null,
                   withdrawTransactionDto
@@ -358,7 +331,7 @@ export class AccountsService {
           if (updateSourceAccount && updateTargetAccount) {
             const insertTrasactionInDB = this.repository.insert(
               this.tables.TRANSACTIONS,
-              TransactionMapper.assignId(
+              TransactionTracer.assignId(
                 accountId,
                 createTransactionDto.target_account_id,
                 createTransactionDto

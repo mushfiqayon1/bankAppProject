@@ -17,7 +17,7 @@ export class TransactionsService {
     const dbResult = await this.repo.findAll(this.tables.TRANSACTIONS);
 
     return !dbResult
-      ? new NotFoundException("Wrong table provided.")
+      ? new NotFoundException("Wrong table! Please Check again.")
       : Array.isArray(dbResult) && {
           count: dbResult.length,
           result: dbResult,

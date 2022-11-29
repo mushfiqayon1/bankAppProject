@@ -20,7 +20,7 @@ export declare class AccountsService {
     findAllAccounts(): Promise<any>;
     findAllTransactions(): Promise<any>;
     findOneAccount(accountId: string): Promise<any>;
-    findOneTransaction(accountId: string): Promise<NotFoundException | (import("./entities/account.entity").Account | import("../transactions/entities/transaction.entity").Transaction)[]>;
+    findOneTransaction(accountId: string): Promise<(import("../transactions/entities/transaction.entity").Transaction | import("./entities/account.entity").Account)[] | NotFoundException>;
     addMoneyToAccount(accountId: string, addTransactionDto: DepositTransactionDto): Promise<any>;
     withdrawMoneyFromAccount(accountId: string, withdrawTransactionDto: WithdrawTransactionDto): Promise<any>;
     sendMoneyToAccount(accountId: string, createTransactionDto: CreateTransactionDto): Promise<any>;
