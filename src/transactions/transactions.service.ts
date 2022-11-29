@@ -4,15 +4,10 @@ import { Repository } from "../repositories/repository";
 
 @Injectable()
 export class TransactionsService {
-  /**
-   * Inject dependencies
-   * @param tables
-   */
   constructor(private readonly tables: Table, private repo: Repository) {}
-  /**
-   * Find all transactions
-   * @returns Array of transactions
-   */
+
+  // Find all transactions
+
   async findAllTransactions() {
     const dbResult = await this.repo.findAll(this.tables.TRANSACTIONS);
 
