@@ -1,0 +1,1 @@
+{"version":3,"file":"swyft-ok.exception.js","sourceRoot":"","sources":["../../../../src/core/errors/exceptions/swyft-ok.exception.ts"],"names":[],"mappings":";;;AAAA,2CAA2D;AAK3D,MAAa,iBAAkB,SAAQ,sBAAa;IAKlD,YAAY,OAAe;QACzB,KAAK,CACH;YACE,MAAM,EAAE,mBAAU,CAAC,EAAE;YACrB,OAAO,EAAE,OAAO;SACjB,EACD,mBAAU,CAAC,EAAE,CACd,CAAC;IACJ,CAAC;CACF;AAdD,8CAcC"}

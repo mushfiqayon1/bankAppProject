@@ -1,0 +1,1 @@
+{"version":3,"file":"swyft-session.module.js","sourceRoot":"","sources":["../../../src/essentials/sessions/swyft-session.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,mEAAuD;AAMhD,IAAM,mBAAmB,GAAzB,MAAM,mBAAmB;CAAG,CAAA;AAAtB,mBAAmB;IAJ/B,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,oCAAY,CAAC;QACzB,OAAO,EAAE,CAAC,oCAAY,CAAC;KACxB,CAAC;GACW,mBAAmB,CAAG;AAAtB,kDAAmB"}
